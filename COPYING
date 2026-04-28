@@ -1,0 +1,18 @@
+Copyright (C) 2026 IONOS SE
+
+Files in this repository are distributed under multiple licenses.
+Each file declares its license and copyright using SPDX tags:
+
+  - Text files carry `SPDX-FileCopyrightText` and
+    `SPDX-License-Identifier` headers inline.
+  - Binary files (e.g. images under docs/_static/images/) declare
+    the same tags in adjacent `.license` sidecar files.
+
+The per-file tags are authoritative. The licenses currently in use
+across this repository are:
+
+  GPL-2.0-or-later    LICENSES/GPL-2.0-or-later.txt
+  CC-BY-4.0           LICENSES/CC-BY-4.0.txt
+
+Some files are dual-licensed under `GPL-2.0-or-later OR CC-BY-4.0`;
+recipients may choose either license for those files.

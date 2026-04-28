@@ -1,0 +1,4 @@
+docs/_build/
+.venv/
+uv.lock
+.python-version
