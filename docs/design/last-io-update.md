@@ -47,4 +47,11 @@ on the server side:
 
    This creates an implicit ordering: the node chosen first to receive `RMR_CMD_LAST_IO_TO_MAP` — call it A — is treated as holding the latest data for the chunks in its last IO array. If the same chunk appears in the last IO arrays of other nodes (B and C), those entries are skipped, since A has already marked that chunk dirty for B and C and distributed its map to them.
 
+The diagram below walks through the algorithm on a two-node pool. Compute client P issues two writes to chunk 9 (`'a'` with qid 2, then `'b'` with qid 3); A receives both, B receives only the first, and then P crashes. The resulting dirty maps differ depending on which node runs the last IO update first — if A goes first, chunk 9 ends up dirty for B (so B will be resynced from A's `'b'`); if B goes first, chunk 9 ends up dirty for A (so A will be resynced from B's `'a'`). Either way, both nodes converge to the same value regardless of the chosen ordering. This is acceptable because P crashed before it could acknowledge the second write with `'b'`. In this case, the block layer doesn't guarantee that the subsequent read will return `'a'` or `'b'`, only that it will return a consistent value.
+
+```{image} ../_static/images/design/lastio_lsf.png
+:width: 100%
+:alt: Last IO update example with two storage nodes, showing how the chosen ordering determines the resulting dirty maps.
+```
+
 After these steps complete, `try_enable` transitions all RECONNECTING sessions to NORMAL. IOs can now run safely.
